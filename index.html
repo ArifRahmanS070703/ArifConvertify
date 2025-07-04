@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertify - All-in-One Media Tools</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #1a2a6c;
+            --secondary: #2a5298;
+            --tertiary: #3a7bd5;
+            --accent: #4CAF50;
+            --accent-dark: #2E7D32;
+            --white: #ffffff;
+            --light-bg: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.1);
+            --text-secondary: rgba(255, 255, 255, 0.8);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--tertiary));
+            color: var(--white);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 0.5s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header & Navbar */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--accent);
+            transition: color 0.3s ease;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 15px;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav a:hover {
+            color: var(--white);
+            background: var(--light-bg);
+        }
+
+        nav a.active {
+            color: var(--accent);
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
+        }
+
+        /* Page Content */
+        .page-content {
+            min-height: 70vh;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .page-title p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Tool Form */
+        .tool-form {
+            background: var(--light-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* File Picker */
+        .file-picker {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-picker:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--accent);
+        }
+
+        .file-picker i {
+            font-size: 48px;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .file-picker h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .file-picker p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Options Container */
+        .options-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 25px 0;
+        }
+
+        /* Grid Layout */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Dropdowns */
+        .dropdown-group {
+            margin-bottom: 20px;
+        }
+
+        .dropdown-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .dropdown-group label {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.9);
+            display: block;
+        }
+
+        .custom-select {
+            position: relative;
+        }
+
+        select {
+            width: 100%;
+            padding: 14px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 16px;
+            appearance: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3);
+        }
+
+        .custom-select i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--accent);
+        }
+
+        /* Textbox */
+        .textbox-group {
+            margin-top: 25px;
+        }
+
+        .textbox-group label {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.9);
+            display: block;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 16px;
+            min-height: 120px;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3);
+        }
+
+        /* Action Button */
+        .action-btn {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .action-btn:active {
+            transform: translateY(0);
+        }
+
+        .action-btn i {
+            margin-left: 10px;
+        }
+
+        .action-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-100%);
+            transition: transform 0.4s ease;
+        }
+
+        .action-btn:hover::after {
+            transform: translateX(100%);
+        }
+
+        /* Progress Indicator */
+        .progress-container {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* Home Page Styles */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 20px;
+            margin: 50px 0;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to right, var(--accent), var(--tertiary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+        }
+
+        .hero h2 {
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: var(--text-secondary);
+        }
+
+        .hero p {
+            font-size: 22px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 45px;
+            background: linear-gradient(135deg, var(--accent), var(--tertiary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 22px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+        }
+
+        .cta-button i {
+            margin-left: 10px;
+        }
+
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-100%);
+            transition: transform 0.4s ease;
+        }
+
+        .cta-button:hover::after {
+            transform: translateX(100%);
+        }
+
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 80px 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 35px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border-color: rgba(76, 175, 80, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 60px;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--accent), var(--tertiary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-card h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .feature-card p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 50px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: linear-gradient(135deg, var(--accent), var(--tertiary));
+            transform: translateY(-5px);
+        }
+
+        /* Animation Classes */
+        .slide-in {
+            animation: slideIn 2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes slideIn {
+            0% {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            20% {
+                opacity: 0.5;
+                transform: translateX(20%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Page Transition */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav a {
+                font-size: 16px;
+                padding: 8px 12px;
+            }
+            
+            .hero h1 {
+                font-size: 48px;
+            }
+            
+            .hero h2 {
+                font-size: 28px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .cta-button {
+                padding: 15px 35px;
+                font-size: 18px;
+            }
+            
+            .feature-card {
+                padding: 25px 20px;
+            }
+            
+            .feature-card h3 {
+                font-size: 24px;
+            }
+            
+            .tool-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="#" class="logo" id="logo-link">
+                <i class="fas fa-file-video"></i>
+                <span>Convertify</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="home"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#" class="nav-link" data-page="converter"><i class="fas fa-exchange-alt"></i> Converter</a></li>
+                    <li><a href="#" class="nav-link" data-page="compress"><i class="fas fa-compress-alt"></i> Compress</a></li>
+                    <li><a href="#" class="nav-link" data-page="steganography"><i class="fas fa-shield-alt"></i> Steganografi</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="page-content">
+            <!-- Home Page -->
+            <div id="home-page" class="page active">
+                <section class="hero">
+                    <h1>Convertify</h1>
+                    <h2>Video Anda Sekarang di Convertify Website</h2>
+                    <p>Convert Video Secara Bebas &amp; Tanpa Batas</p>
+                    <a href="#" class="cta-button" id="start-convert-btn">Mulai Convert <i class="fas fa-arrow-right"></i></a>
+                </section>
+
+                <section class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <h3>Konverter Video</h3>
+                        <p>Ubah format video Anda ke berbagai format populer dengan kualitas terbaik. Dukungan untuk semua format video utama.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-compress-alt"></i>
+                        </div>
+                        <h3>Kompres Video</h3>
+                        <p>Perkecil ukuran video tanpa mengurangi kualitas secara signifikan. Hemat ruang penyimpanan dan waktu upload.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Steganografi</h3>
+                        <p>Sembunyikan pesan rahasia dalam file audio tanpa mengubah kualitas suara yang terdengar. Keamanan tingkat tinggi.</p>
+                    </div>
+                </section>
+            </div>
+            
+            <!-- Converter Page -->
+            <div id="converter-page" class="page">
+                <div class="page-title">
+                    <h1>Video Converter</h1>
+                    <p>Konversi video Anda ke berbagai format dengan kualitas terbaik</p>
+                </div>
+
+                <div class="tool-form">
+                    <div class="form-group">
+                        <label>1. Pilih File Video</label>
+                        <div class="file-picker" id="converter-file-picker">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h3>Klik untuk memilih file video</h3>
+                            <p>Format yang didukung: MP4, AVI, MOV, MKV, WMV, FLV, WebM (Maks. 2GB)</p>
+                            <input type="file" class="file-input" id="converter-file-input" accept="video/*">
+                        </div>
+                        <div id="converter-file-name" class="file-name"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>2. Atur Opsi Konversi</label>
+                        <div class="options-container">
+                            <div class="dropdown-group">
+                                <label>Format Output</label>
+                                <div class="custom-select">
+                                    <select id="output-format">
+                                        <option value="">Pilih format output</option>
+                                        <option value="mp4">MP4 - MPEG-4</option>
+                                        <option value="avi">AVI - Audio Video Interleave</option>
+                                        <option value="mov">MOV - Apple QuickTime</option>
+                                        <option value="mkv">MKV - Matroska</option>
+                                        <option value="webm">WebM - Web Video</option>
+                                        <option value="gif">GIF - Animated GIF</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="divider"></div>
+                            
+                            <div class="dropdown-group">
+                                <label>Sample Rate</label>
+                                <div class="custom-select">
+                                    <select id="sample-rate">
+                                        <option value="">Pilih sample rate</option>
+                                        <option value="24">24 Hz (Film)</option>
+                                        <option value="30">30 Hz (TV NTSC)</option>
+                                        <option value="48">48 Hz (Pro Audio)</option>
+                                        <option value="60">60 Hz (High Motion)</option>
+                                        <option value="120">120 Hz (Slow Motion)</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="action-btn" id="convert-btn">
+                        <i class="fas fa-sync-alt"></i> Konversi & Download
+                    </button>
+                    
+                    <div class="progress-container" id="converter-progress-container">
+                        <div class="progress-bar" id="converter-progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Compress Page -->
+            <div id="compress-page" class="page">
+                <div class="page-title">
+                    <h1>Compressor Video</h1>
+                    <p>Kompres file video Anda tanpa mengurangi kualitas secara signifikan</p>
+                </div>
+
+                <div class="tool-form">
+                    <div class="form-group">
+                        <label>1. Pilih File Video</label>
+                        <div class="file-picker" id="compress-file-picker">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h3>Klik untuk memilih file video</h3>
+                            <p>Format yang didukung: MP4, AVI, MOV, MKV, WMV (Maks. 2GB)</p>
+                            <input type="file" class="file-input" id="compress-file-input" accept="video/*">
+                        </div>
+                        <div id="compress-file-name" class="file-name"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>2. Atur Opsi Kompresi</label>
+                        <div class="options-grid">
+                            <div class="dropdown-group">
+                                <label>Kodek Video</label>
+                                <div class="custom-select">
+                                    <select id="video-codec">
+                                        <option value="h264">H.264</option>
+                                        <option value="h265">H.265 (HEVC)</option>
+                                        <option value="vp9">VP9</option>
+                                        <option value="av1">AV1</option>
+                                        <option value="mpeg4">MPEG-4</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                            <div class="dropdown-group">
+                                <label>Metode Kompresi</label>
+                                <div class="custom-select">
+                                    <select id="compression-method">
+                                        <option value="constant">Constant Bitrate</option>
+                                        <option value="variable">Variable Bitrate</option>
+                                        <option value="quality">Constant Quality</option>
+                                        <option value="size">Target Size</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="action-btn" id="compress-btn">
+                        <i class="fas fa-cogs"></i> Kompres & Download
+                    </button>
+                    
+                    <div class="progress-container" id="compress-progress-container">
+                        <div class="progress-bar" id="compress-progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Steganography Page -->
+            <div id="steganography-page" class="page">
+                <div class="page-title">
+                    <h1>Steganografi</h1>
+                    <p>Sembunyikan pesan rahasia dalam file audio tanpa mengubah kualitas suara</p>
+                </div>
+
+                <div class="tool-form">
+                    <div class="form-group">
+                        <label>1. Pilih File Audio</label>
+                        <div class="file-picker" id="steg-file-picker">
+                            <i class="fas fa-file-audio"></i>
+                            <h3>Klik untuk memilih file audio</h3>
+                            <p>Format yang didukung: WAV, MP3, FLAC (Maks. 5MB)</p>
+                            <input type="file" class="file-input" id="steg-file-input" accept="audio/*">
+                        </div>
+                        <div id="steg-file-name" class="file-name"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>2. Atur Opsi</label>
+                        <div class="options-container">
+                            <div class="dropdown-group">
+                                <label>Pilih Opsi</label>
+                                <div class="custom-select">
+                                    <select id="steg-option">
+                                        <option value="">Pilih opsi steganografi</option>
+                                        <option value="encode">Encode (Sembunyikan Pesan)</option>
+                                        <option value="decode">Decode (Ambil Pesan)</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+
+                            <div class="textbox-group" id="message-container" style="display: none;">
+                                <label>Pesan Rahasia</label>
+                                <textarea id="secret-message" placeholder="Masukkan pesan yang ingin disembunyikan..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="action-btn" id="steg-btn">
+                        <i class="fas fa-download"></i> Download WAV
+                    </button>
+                    
+                    <div class="progress-container" id="steg-progress-container">
+                        <div class="progress-bar" id="steg-progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Convertify. By Arif Rahman Sopian.</p>
+            <p>Convert Video Secara Bebas &amp; Tanpa Batas</p>
+        </footer>
+    </div>
+
+    <script>
+        // Global variables
+let currentPage = 'home';
+
+// Initialize the application
+document.addEventListener('DOMContentLoaded', () => {
+    // Setup navigation
+    setupNavigation();
+    
+    // Initialize all pages
+    initConverterPage();
+    initCompressPage();
+    initSteganographyPage();
+    
+    // Initialize home page
+    document.getElementById('start-convert-btn').addEventListener('click', (e) => {
+        e.preventDefault();
+        navigateToPage('converter');
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.dataset.page === 'converter') {
+                link.classList.add('active');
+            }
+        });
+    });
+});
+
+// Navigation setup
+function setupNavigation() {
+    const navLinks = document.querySelectorAll('.nav-link');
+    const logoLink = document.getElementById('logo-link');
+    
+    // Add click event to navigation links
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const page = link.dataset.page;
+            
+            // Skip if already active
+            if (link.classList.contains('active')) return;
+            
+            // Update navigation
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+            
+            // Navigate to page
+            navigateToPage(page);
+        });
+    });
+    
+    // Add click event to logo
+    logoLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        navigateToPage('home');
+        navLinks.forEach(l => l.classList.remove('active'));
+        document.querySelector('.nav-link[data-page="home"]').classList.add('active');
+    });
+}
+
+// Navigate to specific page
+function navigateToPage(page) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(p => {
+        p.classList.remove('active');
+    });
+    
+    // Show selected page
+    document.getElementById(`${page}-page`).classList.add('active');
+    
+    // Update current page
+    currentPage = page;
+    
+    // Scroll to top
+    window.scrollTo(0, 0);
+}
+
+// Initialize Converter Page
+function initConverterPage() {
+    const filePicker = document.getElementById('converter-file-picker');
+    const fileInput = document.getElementById('converter-file-input');
+    const fileName = document.getElementById('converter-file-name');
+    const convertBtn = document.getElementById('convert-btn');
+    const progressContainer = document.getElementById('converter-progress-container');
+    const progressBar = document.getElementById('converter-progress-bar');
+    const outputFormat = document.getElementById('output-format');
+    const sampleRate = document.getElementById('sample-rate');
+    
+    // Fungsi untuk mengonversi video
+async function convertVideo(file, outputFormat, sampleRate) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('output_format', outputFormat);
+    formData.append('sample_rate', sampleRate);
+
+    try {
+        // Tampilkan URL yang digunakan untuk debugging
+        console.log('Mengirim request ke: http://127.0.0.1:5000/convert');
+        
+        const response = await fetch('http://127.0.0.1:5000/convert', {
+            method: 'POST',
+            body: formData
+        });
+
+        clearInterval(progressInterval);
+        progressBar.style.width = '100%';
+        
+        if (!response.ok) {
+            try {
+                const errorData = await response.json();
+                throw new Error(errorData.error || `Server error: ${response.status}`);
+            } catch (e) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+        }
+
+        // Simpan file hasil konversi
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        
+        // Buat nama file yang lebih baik
+        const originalName = file.name.split('.')[0];
+        a.download = `${originalName}_converted.${outputFormat}`;
+        
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        
+        // Hapus URL objek setelah selesai
+        setTimeout(() => {
+            window.URL.revokeObjectURL(url);
+            progressContainer.style.display = 'none';
+        }, 100);
+        
+        return true;
+        
+    } catch (error) {
+        console.error('Full error details:', error);
+        
+        // Berikan pesan error yang lebih spesifik
+        let errorMessage = 'Terjadi kesalahan saat mengonversi video';
+        
+        if (error.message.includes('Failed to fetch')) {
+            errorMessage = 'Tidak dapat terhubung ke server. Pastikan:';
+            errorMessage += '\n1. Backend berjalan di port 5000';
+            errorMessage += '\n2. Tidak ada firewall yang memblokir';
+            errorMessage += '\n3. Cek terminal backend untuk error';
+        } else if (error.message.includes('HTTP error')) {
+            errorMessage = `Kesalahan server: ${error.message}`;
+        }
+        
+        alert(errorMessage);
+        progressContainer.style.display = 'none';
+        return false;
+    }
+}
+    // File picker interaction
+    filePicker.addEventListener('click', () => {
+        fileInput.click();
+    });
+    
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            fileName.textContent = `File terpilih: ${file.name} (${formatFileSize(file.size)})`;
+            filePicker.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <h3>${file.name}</h3>
+                <p>${formatFileSize(file.size)}</p>
+            `;
+            filePicker.style.borderColor = 'var(--accent)';
+        }
+    });
+    
+    // Convert button action
+    convertBtn.addEventListener('click', async () => {
+        if (!fileInput.files.length) {
+            alert('Silakan pilih file video terlebih dahulu!');
+            return;
+        }
+        
+        if (!outputFormat.value) {
+            alert('Silakan pilih format output!');
+            return;
+        }
+        
+        if (!sampleRate.value) {
+            alert('Silakan pilih sample rate!');
+            return;
+        }
+        
+        // Tampilkan status loading
+        convertBtn.disabled = true;
+        const originalBtnText = convertBtn.innerHTML;
+        convertBtn.innerHTML = '<i class="fas fa-cog fa-spin"></i> Mengonversi...';
+        
+        // Dapatkan file dan opsi
+        const file = fileInput.files[0];
+        const format = outputFormat.value;
+        const rate = sampleRate.value;
+        
+        // Panggil fungsi convertVideo
+        const success = await convertVideo(file, format, rate);
+        
+        // Reset tombol
+        convertBtn.disabled = false;
+        if (success) {
+            convertBtn.innerHTML = '<i class="fas fa-check"></i> Konversi Berhasil!';
+            setTimeout(() => {
+                convertBtn.innerHTML = originalBtnText;
+            }, 3000);
+        } else {
+            convertBtn.innerHTML = originalBtnText;
+        }
+    });
+}
+
+// Initialize Compress Page
+function initCompressPage() {
+    const filePicker = document.getElementById('compress-file-picker');
+    const fileInput = document.getElementById('compress-file-input');
+    const fileName = document.getElementById('compress-file-name');
+    const compressBtn = document.getElementById('compress-btn');
+    const progressContainer = document.getElementById('compress-progress-container');
+    const progressBar = document.getElementById('compress-progress-bar');
+    const videoCodec = document.getElementById('video-codec');
+    const compressionMethod = document.getElementById('compression-method');
+    
+    // File picker interaction
+    filePicker.addEventListener('click', () => {
+        fileInput.click();
+    });
+    
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            fileName.textContent = `File terpilih: ${file.name} (${formatFileSize(file.size)})`;
+            filePicker.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <h3>${file.name}</h3>
+                <p>${formatFileSize(file.size)}</p>
+            `;
+            filePicker.style.borderColor = 'var(--accent)';
+        }
+    });
+    
+    // Compress button action
+    compressBtn.addEventListener('click', () => {
+        if (!fileInput.files.length) {
+            alert('Silakan pilih file video terlebih dahulu!');
+            return;
+        }
+        
+        // Show progress bar
+        progressContainer.style.display = 'block';
+        progressBar.style.width = '0%';
+        
+        // Simulate compression process
+        compressBtn.disabled = true;
+        compressBtn.innerHTML = '<i class="fas fa-cog fa-spin"></i> Mengompres...';
+        
+        simulateProcess(progressBar, () => {
+            progressContainer.style.display = 'none';
+            compressBtn.disabled = false;
+            compressBtn.innerHTML = '<i class="fas fa-check"></i> Kompres Berhasil!';
+            
+            // Simulate download
+            setTimeout(() => {
+                alert('File berhasil dikompres dan siap diunduh!');
+                compressBtn.innerHTML = '<i class="fas fa-cogs"></i> Kompres & Download';
+            }, 500);
+        });
+    });
+}
+
+// Initialize Steganography Page
+function initSteganographyPage() {
+    const filePicker = document.getElementById('steg-file-picker');
+    const fileInput = document.getElementById('steg-file-input');
+    const fileName = document.getElementById('steg-file-name');
+    const stegOption = document.getElementById('steg-option');
+    const messageContainer = document.getElementById('message-container');
+    const stegBtn = document.getElementById('steg-btn');
+    const progressContainer = document.getElementById('steg-progress-container');
+    const progressBar = document.getElementById('steg-progress-bar');
+    const secretMessage = document.getElementById('secret-message');
+    
+    // File picker interaction
+    filePicker.addEventListener('click', () => {
+        fileInput.click();
+    });
+    
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            fileName.textContent = `File terpilih: ${file.name} (${formatFileSize(file.size)})`;
+            filePicker.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <h3>${file.name}</h3>
+                <p>${formatFileSize(file.size)}</p>
+            `;
+            filePicker.style.borderColor = 'var(--accent)';
+        }
+    });
+    
+    // Toggle message textbox based on option
+    stegOption.addEventListener('change', () => {
+        if (stegOption.value === 'encode') {
+            messageContainer.style.display = 'block';
+            stegBtn.innerHTML = '<i class="fas fa-lock"></i> Encode & Download';
+        } else if (stegOption.value === 'decode') {
+            messageContainer.style.display = 'none';
+            stegBtn.innerHTML = '<i class="fas fa-unlock"></i> Decode Pesan';
+        } else {
+            messageContainer.style.display = 'none';
+            stegBtn.innerHTML = '<i class="fas fa-download"></i> Download WAV';
+        }
+    });
+    
+    // Steganography button action
+    stegBtn.addEventListener('click', () => {
+        if (!fileInput.files.length) {
+            alert('Silakan pilih file audio terlebih dahulu!');
+            return;
+        }
+        
+        if (!stegOption.value) {
+            alert('Silakan pilih opsi steganografi!');
+            return;
+        }
+        
+        if (stegOption.value === 'encode' && !secretMessage.value.trim()) {
+            alert('Silakan masukkan pesan yang ingin disembunyikan!');
+            return;
+        }
+        
+        // Show progress bar
+        progressContainer.style.display = 'block';
+        progressBar.style.width = '0%';
+        
+        // Simulate steganography process
+        stegBtn.disabled = true;
+        
+        if (stegOption.value === 'encode') {
+            stegBtn.innerHTML = '<i class="fas fa-lock"></i> Menyembunyikan pesan...';
+        } else {
+            stegBtn.innerHTML = '<i class="fas fa-unlock"></i> Mengambil pesan...';
+        }
+        
+        simulateProcess(progressBar, () => {
+            progressContainer.style.display = 'none';
+            stegBtn.disabled = false;
+            
+            if (stegOption.value === 'encode') {
+                stegBtn.innerHTML = '<i class="fas fa-check"></i> Pesan Tersembunyi!';
+                
+                // Simulate download
+                setTimeout(() => {
+                    const file = fileInput.files[0];
+                    const fileName = file.name.split('.')[0] + '_encoded.wav';
+                    alert(`File berhasil diproses! Pesan telah disembunyikan.\n\nFile akan diunduh: ${fileName}`);
+                    stegBtn.innerHTML = '<i class="fas fa-download"></i> Download WAV';
+                }, 500);
+            } else {
+                stegBtn.innerHTML = '<i class="fas fa-check"></i> Pesan Ditemukan!';
+                
+                // Simulate showing message
+                setTimeout(() => {
+                    const messages = [
+                        "Rapat rahasia besok pukul 10:00 di ruang bawah tanah.",
+                        "Kode akses: 7H3-S3CR37-8357",
+                        "Kontak agen X di 555-1967",
+                        "Operasi Midnight dimulai dalam 48 jam",
+                        "Bertemu di lokasi jatuhnya meteor, koordinat 37.7749° N, 122.4194° W"
+                    ];
+                    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                    alert(`Pesan rahasia yang ditemukan:\n\n"${randomMessage}"`);
+                    stegBtn.innerHTML = '<i class="fas fa-unlock"></i> Decode Pesan';
+                }, 500);
+            }
+        });
+    });
+}
+
+// Format file size
+function formatFileSize(bytes) {
+    try {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        const sizeValue = parseFloat((bytes / Math.pow(k, i)).toFixed(2));
+        return `${sizeValue} ${sizes[i]}`;
+    } catch (e) {
+        console.error('Error in formatFileSize:', e);
+        return 'Ukuran tidak valid';
+    }
+}
+
+// Simulate process with progress bar
+function simulateProcess(progressBar, callback) {
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += 5;
+        progressBar.style.width = `${progress}%`;
+        
+        if (progress >= 100) {
+            clearInterval(interval);
+            setTimeout(() => {
+                callback();
+            }, 300);
+        }
+    }, 150);
+}
+    </script>
+</body>
+</html>
